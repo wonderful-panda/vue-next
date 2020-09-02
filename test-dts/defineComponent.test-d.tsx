@@ -664,6 +664,10 @@ describe('extends with mixins', () => {
   // Test TSX
   expectType<JSX.Element>(<MyComponent mP1="p1" mP2 p1 p2={1} z={'z'} />)
 
+  // mP1, mP2, p1, and p2 should be optional, but mP1 and p2 treated as required
+  expectType<JSX.Element>(<MyComponent /* mP1="p1" */ mP2 p1 p2={1} z={'z'} />) // TS2322 Property 'mP1' is missing
+  expectType<JSX.Element>(<MyComponent mP1="p1" mP2 p1 /* p2={1} */ z={'z'} />) // TS2322 Property 'p1' is missing
+
   // missing required props
   // @ts-expect-error
   expectError(<MyComponent />)
